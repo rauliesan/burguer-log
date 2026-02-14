@@ -38,7 +38,8 @@ public class Burguer {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "burguer", cascade = CascadeType.REMOVE)
 	private Set<Mesa> mesas;
 
-	
+	@OneToMany(mappedBy = "burguer", cascade = CascadeType.ALL)
+	private Set<Producto> productos;
 	
 	
 	public Long getId() {
@@ -99,6 +100,14 @@ public class Burguer {
 	
 	public Integer getCantidadMesas() {
 		return mesas.size();
+	}
+
+	public Set<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(Set<Producto> productos) {
+		this.productos = productos;
 	}
 	
 }

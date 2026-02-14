@@ -1,0 +1,22 @@
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from '../../components/navbar/navbar';
+
+@Component({
+    selector: 'app-layout',
+    imports: [RouterOutlet, NavbarComponent],
+    template: `
+    <app-navbar />
+    <main class="main-content">
+      <router-outlet />
+    </main>
+  `,
+    styles: [`
+    .main-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+  `]
+})
+export class LayoutComponent { }

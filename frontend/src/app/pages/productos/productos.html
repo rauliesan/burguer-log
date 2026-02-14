@@ -1,0 +1,52 @@
+<div class="page">
+  <div class="page-header">
+    <h1>📦 Productos</h1>
+    <p>Gestiona la carta de tu restaurante</p>
+  </div>
+
+  @if (error) {
+    <div class="msg error">{{ error }}</div>
+  }
+  @if (success) {
+    <div class="msg success">{{ success }}</div>
+  }
+
+  <div class="add-section">
+    <form (ngSubmit)="crearProducto()" class="add-form">
+      <input type="text" [(ngModel)]="nombre" name="nombre" placeholder="Nombre del producto" />
+      <input type="number" [(ngModel)]="precio" name="precio" placeholder="Precio (€)" min="0.01" step="0.01" />
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Creando...' : 'Añadir' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="productos-list">
+    @for (prod of productos; track prod.id) {
+      <div class="producto-card">
+        @if (editandoId === prod.id) {
+          <div class="edit-row">
+            <input type="text" [(ngModel)]="editNombre" name="editNombre" class="edit-input" />
+            <input type="number" [(ngModel)]="editPrecio" name="editPrecio" class="edit-input small" step="0.01" />
+            <button class="btn-save" (click)="guardarEdicion()">✓</button>
+            <button class="btn-cancel" (click)="cancelarEdicion()">✕</button>
+          </div>
+        } @else {
+          <div class="producto-info">
+            <span class="producto-nombre">{{ prod.nombre }}</span>
+            <span class="producto-precio">{{ prod.precio | currency:'EUR':'symbol':'1.2-2' }}</span>
+          </div>
+          <div class="producto-actions">
+            <button class="btn-icon" (click)="empezarEdicion(prod)" title="Editar">✏️</button>
+            <button class="btn-icon danger" (click)="eliminarProducto(prod.id, prod.nombre)" title="Eliminar">🗑️</button>
+          </div>
+        }
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <span class="empty-icon">📦</span>
+        <p>No hay productos todavía. ¡Crea el primero!</p>
+      </div>
+    }
+  </div>
+</div>

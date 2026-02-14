@@ -1,0 +1,58 @@
+<div class="dashboard">
+  <div class="welcome">
+    <h1>Bienvenido, {{ burguer?.name }}</h1>
+    <p>Panel de gestión de tu restaurante</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-icon">🪑</span>
+      <div class="stat-info">
+        <span class="stat-number">{{ totalMesas }}</span>
+        <span class="stat-label">Mesas</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-icon">📦</span>
+      <div class="stat-info">
+        <span class="stat-number">{{ totalProductos }}</span>
+        <span class="stat-label">Productos</span>
+      </div>
+    </div>
+
+    <div class="stat-card accent">
+      <span class="stat-icon">🔥</span>
+      <div class="stat-info">
+        <span class="stat-number">{{ pedidosActivos }}</span>
+        <span class="stat-label">Pedidos activos</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-icon">🧾</span>
+      <div class="stat-info">
+        <span class="stat-number">{{ totalPedidos }}</span>
+        <span class="stat-label">Total pedidos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h2>Información del restaurante</h2>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">Dirección</span>
+        <span class="info-value">{{ burguer?.address || '—' }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Ciudad</span>
+        <span class="info-value">{{ burguer?.town || '—' }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Email</span>
+        <span class="info-value">{{ burguer?.email || '—' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

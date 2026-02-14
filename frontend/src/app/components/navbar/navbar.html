@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="nav-icon">🍔</span>
+    <span class="nav-title">{{ burguerName }}</span>
+  </div>
+
+  <div class="nav-links">
+    <a routerLink="/dashboard" routerLinkActive="active">
+      <span class="link-icon">📊</span> Panel
+    </a>
+    <a routerLink="/mesas" routerLinkActive="active">
+      <span class="link-icon">🪑</span> Mesas
+    </a>
+    <a routerLink="/productos" routerLinkActive="active">
+      <span class="link-icon">📦</span> Productos
+    </a>
+    <a routerLink="/pedidos" routerLinkActive="active">
+      <span class="link-icon">🧾</span> Pedidos
+    </a>
+  </div>
+
+  <button class="nav-logout" (click)="logout()">
+    Cerrar sesión
+  </button>
+</nav>

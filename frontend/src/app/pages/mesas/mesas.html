@@ -1,0 +1,43 @@
+<div class="page">
+  <div class="page-header">
+    <h1>🪑 Mesas</h1>
+    <p>Gestiona las mesas de tu restaurante</p>
+  </div>
+
+  @if (error) {
+    <div class="msg error">{{ error }}</div>
+  }
+  @if (success) {
+    <div class="msg success">{{ success }}</div>
+  }
+
+  <div class="add-section">
+    <form (ngSubmit)="crearMesa()" class="add-form">
+      <input
+        type="number"
+        [(ngModel)]="nuevoNumero"
+        name="numero"
+        placeholder="Nº mesa"
+        min="1"
+      />
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Creando...' : 'Añadir Mesa' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="mesas-grid">
+    @for (mesa of mesas; track mesa.numero) {
+      <div class="mesa-card">
+        <div class="mesa-number">{{ mesa.numero }}</div>
+        <span class="mesa-label">Mesa</span>
+        <button class="btn-delete" (click)="eliminarMesa(mesa.numero)" title="Eliminar mesa">✕</button>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <span class="empty-icon">🪑</span>
+        <p>No hay mesas todavía. ¡Añade la primera!</p>
+      </div>
+    }
+  </div>
+</div>

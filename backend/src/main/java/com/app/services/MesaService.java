@@ -25,42 +25,44 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class MesaService {
-	
+
 	@Autowired
 	private MesaRepository mesaRepository;
-	
+
 	@Autowired
 	private BurguerRepository burguerRepository;
 
 	public MesaResponse crearMesa(MesaRequest request) {
 		// Comprobar si existe el burguer por id
 		Optional<Burguer> optionalBurguer = burguerRepository.findById(request.getIdBurguer());
-		if(optionalBurguer.isEmpty()) {
+		if (optionalBurguer.isEmpty()) {
 			throw new BurguerNotFoundException(request.getIdBurguer());
 		}
 		// Comprobar si existe una mesa con el mismo número en el burguer
-		Optional<Mesa> optionalMesa = mesaRepository.findByNumeroAndBurguerId(request.getNumero(), request.getIdBurguer());
-		if(optionalMesa.isPresent()) {
+		Optional<Mesa> optionalMesa = mesaRepository.findByNumeroAndBurguerId(request.getNumero(),
+				request.getIdBurguer());
+		if (optionalMesa.isPresent()) {
 			throw new MesaDuplicateException(request.getNumero());
 		}
 		Mesa mesa = mapperMesaRequestToEntity(request);
 		mesa.setBurguer(optionalBurguer.get());
 		try {
 			mesaRepository.save(mesa);
-		} catch(DataIntegrityViolationException ex) {
+		} catch (DataIntegrityViolationException ex) {
 			throw new EntidadNotCreatedException("Mesa");
 		}
 		return mapperEntityToMesaResponse(mesa);
 	}
-	
+
 	public Mesa mapperMesaRequestToEntity(MesaRequest request) {
 		Mesa mesa = new Mesa();
 		mesa.setNumero(request.getNumero());
 		return mesa;
 	}
-	
+
 	public MesaResponse mapperEntityToMesaResponse(Mesa mesa) {
 		MesaResponse response = new MesaResponse();
+		response.setId(mesa.getId());
 		response.setNumero(mesa.getNumero());
 		response.setNombreBurguer(mesa.getBurguer().getName());
 		return response;
@@ -68,7 +70,7 @@ public class MesaService {
 
 	public List<MesaResponse> obtenerMesasBurguer(Long idBurguer) {
 		Optional<Burguer> optionalBurguer = burguerRepository.findById(idBurguer);
-		if(optionalBurguer.isEmpty()) {
+		if (optionalBurguer.isEmpty()) {
 			throw new BurguerNotFoundException(idBurguer);
 		}
 		List<Mesa> mesas = mesaRepository.findByBurguerId(idBurguer);
@@ -80,21 +82,21 @@ public class MesaService {
 	}
 
 	public void eliminarMesa(Long numero) {
-		
+
 	}
 
 	public void eliminarMesa(Long idBurguer, Long numero) {
 		Optional<Burguer> optionalBurguer = burguerRepository.findById(idBurguer);
-		if(optionalBurguer.isEmpty()) {
+		if (optionalBurguer.isEmpty()) {
 			throw new BurguerNotFoundException(idBurguer);
 		}
 		Optional<Mesa> optionalMesa = mesaRepository.findByNumeroAndBurguerId(numero, idBurguer);
-		if(optionalMesa.isEmpty()) {
+		if (optionalMesa.isEmpty()) {
 			throw new EntidadNotFoundException("Mesa");
 		}
 		try {
 			mesaRepository.delete(optionalMesa.get());
-		} catch(DataIntegrityViolationException ex) {
+		} catch (DataIntegrityViolationException ex) {
 			throw new EntidadNotDeletedException("Mesa", optionalMesa.get().getId());
 		}
 	}

@@ -1,0 +1,112 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>🧾 Pedidos</h1>
+      <p>Crea y gestiona los pedidos de tus mesas</p>
+    </div>
+    <button class="btn-primary" (click)="toggleCrearPedido()">
+      {{ creandoPedido ? 'Cancelar' : '+ Nuevo Pedido' }}
+    </button>
+  </div>
+
+  @if (error) {
+    <div class="msg error">{{ error }}</div>
+  }
+  @if (success) {
+    <div class="msg success">{{ success }}</div>
+  }
+
+  <!-- Formulario crear pedido -->
+  @if (creandoPedido) {
+    <div class="crear-pedido-card">
+      <h2>Nuevo Pedido</h2>
+
+      <div class="step">
+        <label class="step-label">1. Selecciona mesa</label>
+        <div class="mesa-selector">
+          @for (mesa of mesas; track mesa.numero) {
+            <button
+              class="mesa-btn"
+              [class.selected]="mesaSeleccionada === mesa.id"
+              (click)="mesaSeleccionada = mesa.id"
+            >
+              {{ mesa.numero }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="step">
+        <label class="step-label">2. Añade productos</label>
+        <div class="productos-selector">
+          @for (prod of productos; track prod.id) {
+            <button class="producto-btn" (click)="agregarProducto(prod)">
+              <span>{{ prod.nombre }}</span>
+              <span class="prod-price">{{ prod.precio | currency:'EUR':'symbol':'1.2-2' }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (lineas.length > 0) {
+        <div class="step">
+          <label class="step-label">3. Resumen del pedido</label>
+          <div class="resumen">
+            @for (linea of lineas; track linea.productoId; let i = $index) {
+              <div class="resumen-linea">
+                <span class="linea-nombre">{{ linea.nombre }}</span>
+                <div class="linea-qty">
+                  <button class="qty-btn" (click)="cambiarCantidad(i, -1)">−</button>
+                  <span class="qty-value">{{ linea.cantidad }}</span>
+                  <button class="qty-btn" (click)="cambiarCantidad(i, 1)">+</button>
+                </div>
+                <span class="linea-total">{{ linea.precio * linea.cantidad | currency:'EUR':'symbol':'1.2-2' }}</span>
+                <button class="btn-remove" (click)="eliminarLinea(i)">✕</button>
+              </div>
+            }
+            <div class="resumen-total">
+              <span>Total</span>
+              <span class="total-price">{{ totalPedido | currency:'EUR':'symbol':'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+      }
+
+      <button class="btn-primary full" (click)="crearPedido()" [disabled]="loading">
+        {{ loading ? 'Creando...' : 'Confirmar Pedido' }}
+      </button>
+    </div>
+  }
+
+  <!-- Lista de pedidos -->
+  <div class="pedidos-list">
+    @for (pedido of pedidos; track pedido.id) {
+      <div class="pedido-card" [class.cerrado]="pedido.finalizado">
+        <div class="pedido-header">
+          <div class="pedido-id">
+            <span class="pedido-label">Pedido #{{ pedido.id }}</span>
+            <span class="pedido-mesa">Mesa {{ pedido.numeroMesa }}</span>
+          </div>
+          <span class="pedido-status" [class.activo]="!pedido.finalizado">
+            {{ pedido.finalizado ? 'Cerrado' : 'Activo' }}
+          </span>
+        </div>
+        <div class="pedido-footer">
+          <span class="pedido-fecha">{{ pedido.fechaInicio | date:'dd/MM/yyyy HH:mm' }}</span>
+          @if (pedido.finalizado && pedido.precioFinal != null) {
+            <span class="pedido-total">{{ pedido.precioFinal | currency:'EUR':'symbol':'1.2-2' }}</span>
+          } @else {
+            <button class="btn-cerrar" (click)="cerrarPedido(pedido.id)">Cerrar pedido</button>
+          }
+        </div>
+      </div>
+    } @empty {
+      @if (!creandoPedido) {
+        <div class="empty-state">
+          <span class="empty-icon">🧾</span>
+          <p>No hay pedidos todavía. ¡Crea el primero!</p>
+        </div>
+      }
+    }
+  </div>
+</div>

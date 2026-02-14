@@ -1,0 +1,172 @@
+.page {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 0.2rem;
+}
+
+.page-header p {
+    color: #888;
+    font-size: 0.9rem;
+    margin: 0 0 1.5rem;
+}
+
+.msg {
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.msg.error {
+    background: #fdf0ef;
+    color: #c0392b;
+}
+
+.msg.success {
+    background: #eafaf1;
+    color: #27ae60;
+}
+
+.add-section {
+    margin-bottom: 1.5rem;
+}
+
+.add-form {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.add-form input {
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    width: 140px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.add-form input:focus {
+    border-color: #E8732A;
+}
+
+.btn-primary {
+    padding: 0.65rem 1.2rem;
+    background: #E8732A;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #d4621f;
+}
+
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.mesas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.mesa-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mesa-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.mesa-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #E8732A;
+    line-height: 1;
+}
+
+.mesa-label {
+    display: block;
+    font-size: 0.78rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.3rem;
+}
+
+.btn-delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #ccc;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete:hover {
+    background: #fdf0ef;
+    color: #c0392b;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #aaa;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 0.9rem;
+}
